@@ -1,3 +1,4 @@
+using courses_shop.Server.Datos;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+var cadenaConexionSQLConfiguration = new AccessoDatos(
+    builder.Configuration.GetConnectionString("SQL")
+);
+builder.Services.AddSingleton(cadenaConexionSQLConfiguration);
 
 var app = builder.Build();
 
@@ -27,7 +33,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
