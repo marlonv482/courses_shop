@@ -8,7 +8,7 @@
 
         public AccessoDatos(string cadenaConexinSql)
         {
-            cadenaConexinSql = cadenaConexinSql;
+            this.cadenaConexinSql = cadenaConexinSql;
         }
     }
 }

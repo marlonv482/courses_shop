@@ -1,5 +1,41 @@
 ﻿@page "/"
-
+@using courses_shop.Shared;
+@inject HttpClient ClienteHttp
+<br/>
 <PageTitle>Software Courses Store</PageTitle>
+<div class="main">
+    <div class="card-columns">
+        @foreach(var curso in listCursos){
+   <div class="card" style="cursor: pointer;" @onclick="@(()=>mostrarCapaDetalle(curso))">
+    <div class="card-header font-weight-bold bg-light justify-content-center">
+        @curso.NombreCurso
+    </div>
+    <img  class="card-img"src="/css/@curso.RutaImagen" alt="">
+    <div class="card-img-overlay">
+        <div class="link d-flex">
+            <span class="precio">@curso.Precio.PrecioVenta.ToString()</span>
+        </div>
+    </div>
+   </div> 
+   }
 
-
+    </div>
+</div>
+@if (capaVisible)
+{
+    <DetalleCurso curso="cursoCapa"></DetalleCurso>
+}
+@code{
+    bool capaVisible=false;
+    Curso cursoCapa;
+    List<Curso> listCursos = new List<Curso>();
+    protected async override Task OnInitializedAsync()
+    {
+        listCursos = await ClienteHttp.GetFromJsonAsync<List<Curso>>("api/Tienda");
+    }
+    private void mostrarCapaDetalle(Curso curso){
+        capaVisible=true;
+        cursoCapa=curso;
+        Console.WriteLine(curso.Id);
+    }
+}

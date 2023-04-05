@@ -17,10 +17,15 @@ namespace courses_shop.Shared
         [Required(ErrorMessage = "* El campo ruta imagen obligatorio")]
         public string RutaImagen { get; set; }
 
+        [Required(ErrorMessage = "* El campo Descripcion obligatorio")]
+        public string Descripcion { get; set; }
+
+        [Required(ErrorMessage = "* El campo Programa obligatorio")]
+        public string Programa { get; set; }
+
         [Required(ErrorMessage = "* El campo fecha alta obligatorio")]
         public DateTime FechaAlta { get; set; }
 
-        [Required(ErrorMessage = "* El campo fecha baja obligatorio")]
         public DateTime? FechaBaja { get; set; }
 
         public Precio Precio { get; set; }

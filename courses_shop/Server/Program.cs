@@ -1,4 +1,5 @@
 using courses_shop.Server.Datos;
+using courses_shop.Server.Repositories;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
+builder.Services.AddScoped<IRepositorioMasivo, RepositorioMasivo>();
 var cadenaConexionSQLConfiguration = new AccessoDatos(
     builder.Configuration.GetConnectionString("SQL")
 );
