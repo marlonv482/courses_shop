@@ -1,18 +1,19 @@
 @using courses_shop.Shared;
 
 <div class="modal bg-secundary" tabindex="-1" style="display: block;" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">@curso.NombreCurso</h4>
+                <h6><strong>@curso.Precio.PrecioVenta.ToString() L</strong></h6>
             </div>
             <div class="modal-body">
                 <p>@curso.Descripcion</p>
-                <p>@curso.Precio.PrecioVenta.ToString() L</p>
+                <pre>@curso.Programa</pre>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default" type="button" data-dismiss='modal'>Cerrar</button>
-            <button class="btn btn-primary" type="button">Agregar</button>
+                <button @onclick="OnCancelar" class="btn btn-danger" type="button" data-dismiss='modal'>Cerrar</button>
+            <button @onclick="OnAgregar" class="btn btn-primary" type="button">Agregar</button>
             </div>
         </div>
     </div>
@@ -21,4 +22,10 @@
 @code{
     [Parameter]
     public Curso curso{get;set;}
+
+    [Parameter]
+    public EventCallback OnCancelar {get;set;}
+
+    [Parameter]
+    public EventCallback OnAgregar {get;set;}
 }

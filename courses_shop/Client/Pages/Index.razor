@@ -23,7 +23,7 @@
 </div>
 @if (capaVisible)
 {
-    <DetalleCurso curso="cursoCapa"></DetalleCurso>
+    <DetalleCurso curso="cursoCapa" OnCancelar="cancelarCapaDetalle"></DetalleCurso>
 }
 @code{
     bool capaVisible=false;
@@ -37,5 +37,9 @@
         capaVisible=true;
         cursoCapa=curso;
         Console.WriteLine(curso.Id);
+    }
+     void cancelarCapaDetalle(){
+        capaVisible=false;
+
     }
 }
