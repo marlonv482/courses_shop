@@ -1,5 +1,6 @@
 ﻿using courses_shop.Server.Datos;
 using courses_shop.Shared;
+using courses_shop.Shared.Modelos;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;

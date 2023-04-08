@@ -1,4 +1,4 @@
-﻿using courses_shop.Shared;
+﻿using courses_shop.Shared.Modelos;
 
 namespace courses_shop.Server.Repositories
 {
@@ -7,5 +7,6 @@ namespace courses_shop.Server.Repositories
         public Task<IEnumerable<Curso>> PrimerVolcadoDatos();
 
         public Task<IEnumerable<Curso>> DameCursos();
+       
     }
 }

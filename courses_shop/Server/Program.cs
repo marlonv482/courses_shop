@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IRepositorioMasivo, RepositorioMasivo>();
+builder.Services.AddScoped<IRepositorioGeneral, RepositorioGeneral>();
+
 var cadenaConexionSQLConfiguration = new AccessoDatos(
     builder.Configuration.GetConnectionString("SQL")
 );

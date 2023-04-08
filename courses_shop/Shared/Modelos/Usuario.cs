@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace courses_shop.Shared
+namespace courses_shop.Shared.Modelos
 {
     public class Usuario
     {
@@ -24,11 +24,11 @@ namespace courses_shop.Shared
         [Required(ErrorMessage = "*El campo Password obligatorio")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "*El campo fecha Alta obligatorio")]
-        public DateTime FechaAlta { get; set; }
+        
+        public DateTime? FechaAlta { get; set; }
 
         public DateTime? FechaBaja { get; set; }
 
-        public List<Curso> ListaCursos { get; set; }
+        public List<Curso>? ListaCursos { get; set; }
     }
 }

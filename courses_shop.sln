@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "courses_shop.Server", "courses_shop\Server\courses_shop.Server.csproj", "{02D3B200-0A61-4C6F-BFC0-250EFE2C665E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "courses_shop.Server", "courses_shop\Server\courses_shop.Server.csproj", "{02D3B200-0A61-4C6F-BFC0-250EFE2C665E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "courses_shop.Client", "courses_shop\Client\courses_shop.Client.csproj", "{10608EDC-D7C9-420E-B6E6-2CCEFD3EB7F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "courses_shop.Client", "courses_shop\Client\courses_shop.Client.csproj", "{10608EDC-D7C9-420E-B6E6-2CCEFD3EB7F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "courses_shop.Shared", "courses_shop\Shared\courses_shop.Shared.csproj", "{BED1F757-0308-4E98-B054-C2D5F194A1DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "courses_shop.Shared", "courses_shop\Shared\courses_shop.Shared.csproj", "{BED1F757-0308-4E98-B054-C2D5F194A1DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

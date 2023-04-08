@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace courses_shop.Shared
+namespace courses_shop.Shared.Modelos
 {
     public class Curso
     {

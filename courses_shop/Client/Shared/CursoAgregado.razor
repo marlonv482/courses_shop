@@ -1,0 +1,18 @@
+@using courses_shop.Shared.Modelos;
+
+<div class="elementoCarrito">
+    <a href="" class="borrarElemento" @onclick="OnBorrar">x</a>
+    <div class="texto">
+        @(curso.NombreCurso): 
+        <strong>@curso.Precio.PrecioVenta.ToString()L</strong>
+    </div>
+</div>
+
+@code{
+
+[Parameter]
+public Curso curso {get;set;}
+
+[Parameter]
+public EventCallback OnBorrar {get;set;}
+}

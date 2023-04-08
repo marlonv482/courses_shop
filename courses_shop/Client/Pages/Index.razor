@@ -1,45 +1,128 @@
 ﻿@page "/"
-@using courses_shop.Shared;
-@inject HttpClient ClienteHttp
+@using courses_shop.Shared.Modelos;
+@inject HttpClient ClienteHttp;
+@inject NavigationManager navigationManager;
+
 <br/>
 <PageTitle>Software Courses Store</PageTitle>
 <div class="main">
     <div class="card-columns">
-        @foreach(var curso in listCursos){
-   <div class="card" style="cursor: pointer;" @onclick="@(()=>mostrarCapaDetalle(curso))">
-    <div class="card-header font-weight-bold bg-light justify-content-center">
-        @curso.NombreCurso
-    </div>
-    <img  class="card-img"src="/css/@curso.RutaImagen" alt="">
-    <div class="card-img-overlay">
-        <div class="link d-flex">
-            <span class="precio">@curso.Precio.PrecioVenta.ToString()</span>
-        </div>
-    </div>
-   </div> 
-   }
+        @foreach (var c in listCursos)
+        {
 
+                <div class="card" style="cursor:pointer;" @onclick="@(()=>mostrarCapaDetalle(c))">
+                    <div class="card-header font-weight-bold bg-light justify-content-center">@c.NombreCurso</div>
+                    <img class="card-img" src="/css/@c.RutaImagen">
+                    <div class="card-img-overlay">
+                        <div class="link d-flex">
+                            <span class="precio">@c.Precio.PrecioVenta.ToString() €</span>
+                        </div>
+                    </div>
+                </div>
+        }
     </div>
 </div>
+
 @if (capaVisible)
 {
-    <DetalleCurso curso="cursoCapa" OnCancelar="cancelarCapaDetalle"></DetalleCurso>
+    <DetalleCurso curso="cursoCapa" 
+    OnCancelar="cancelarCapaDetalle" 
+    OnAgregar="agregarDetalleCurso"></DetalleCurso>
 }
-@code{
-    bool capaVisible=false;
+@if (mostrarCapaPedido)
+{
+             <div class="modal bg-secundary" tabindex="-1" style="display: block;" role="dialog">
+                                        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h2>Datos Pedido</h2>
+                                                    <button class="btn btn-success" @onclick="ocultarCapaTotal">Seguir Comprando</button>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="pedido-contenido">
+                        @foreach (var curso in listaCursosSeleccionados)
+                        {
+                                                                                                 <CursoAgregado curso="curso" OnBorrar="(()=>eliminarCurso(curso))" ></CursoAgregado>
+                        }
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="pedido-contenido">
+                                                       <div class="totalCarrito">
+                                                         <div class="texto">
+                                                            <strong>Total: @Math.Round(importeTotal,2).ToString()</strong>
+                                                            <button class="btn btn-success" @onclick="guardarPedidos">Comprar</button>
+                                                        </div>
+                                                       </div>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                        </div>
+                                    </div>
+
+}
+@code {
+    bool capaVisible = false;
     Curso cursoCapa;
     List<Curso> listCursos = new List<Curso>();
+    List<Curso> listaCursosSeleccionados = new List<Curso>();
+    double importeTotal = 0;
+    bool mostrarCapaPedido = false;
+
+    bool pedidoEfectuado=false;
     protected async override Task OnInitializedAsync()
     {
-        listCursos = await ClienteHttp.GetFromJsonAsync<List<Curso>>("api/Tienda");
+        listCursos = await ClienteHttp.GetFromJsonAsync<List<Curso>>("api/Tienda/DameCursos");
     }
-    private void mostrarCapaDetalle(Curso curso){
-        capaVisible=true;
-        cursoCapa=curso;
+    private void mostrarCapaDetalle(Curso curso)
+    {
+        capaVisible = true;
+        cursoCapa = curso;
         Console.WriteLine(curso.Id);
     }
-     void cancelarCapaDetalle(){
-        capaVisible=false;
+    void cancelarCapaDetalle()
+    {
+        capaVisible = false;
 
+    }
+    void agregarDetalleCurso()
+    {
+        capaVisible = false;
+        Curso aux = new Curso();
+        aux = cursoCapa;
+        listaCursosSeleccionados.Add(aux);
+        importeTotal += aux.Precio.PrecioVenta;
+        listCursos.Remove(aux);
+        mostrarCapaPedido = true;
+    }
+
+    void ocultarCapaTotal()
+    {
+        mostrarCapaPedido = false;
+    }
+    void eliminarCurso(Curso curso)
+    {
+        importeTotal -= curso.Precio.PrecioVenta;
+        listaCursosSeleccionados.Remove(curso);
+        listCursos.Add(curso);
+        mostrarCapaPedido = (listaCursosSeleccionados.Count == 0) ? false : true;
+    }
+    async void guardarPedidos()
+    {
+        Usuario usuario = new Usuario();
+        if(usuario.Email==null){
+            navigationManager.NavigateTo("/AltaUsuario");
+        }
+       /* usuario.Email = "email@email.com";
+        usuario.Nombre = "Nombre";
+        usuario.Apellido = "Apellido";
+        usuario.Password = "password";
+        usuario.ListaCursos = listaCursosSeleccionados;*/
+        var response = await ClienteHttp.PostAsJsonAsync("api/Tienda/GuardarCursos", usuario);
+        if(response.IsSuccessStatusCode){
+            mostrarCapaPedido=false;
+            pedidoEfectuado=true;
+            StateHasChanged();
+        }
     }
 }
