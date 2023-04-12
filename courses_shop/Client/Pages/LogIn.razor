@@ -3,6 +3,49 @@
 @inject HttpClient ClienteHttp;
 @inject NavigationManager navigationManager;
 
-@code{
+<br>
+<div class="main">
+    <EditForm Model="@usuarioLogin" OnInvalidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <div>
+            <h3 style="font-weight: bold;color:sienna">Iniciar Sesion</h3>
+        </div>
+        <div>
+            <br>
+        </div>
+        <div class="col-6 row">
+            <InputText class="form-control col-12" @bind-Value="usuarioLogin.EmailLogin" placeholder="Email" />
+            <ValidationMessage For="@(()=>usuarioLogin.EmailLogin)" />
+        </div>
+        <br>
+        <div class="col-6 row">
+            <InputText class="form-control col-12" @bind-Value="usuarioLogin.Password" placeholder="Password" />
+            <ValidationMessage For="@(()=>usuarioLogin.Password)" />
+        </div>
+        <br>
+        <div class="col-6 row">
+            <input type="submit" class="btn btn-primary form-control col-12" value="Login" @onclick="ValidarUsuario" />
+        </div>
+        <br>
+        <div class="col-6 row">
+            <a href="/AltaUsuario" class="form-control col-12 btn btn-info">Darse de Alta</a>
+        </div>
+    </EditForm>
+</div>
+@code {
 
+    UsuarioLogin usuarioLogin = new UsuarioLogin();
+
+    void HandleValidSubmit()
+    {
+
+    }
+    async void ValidarUsuario()
+    {
+        var response = await ClienteHttp.PostAsJsonAsync("api/Tienda/ValidarUsuario", usuarioLogin);
+        if (response != null)
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
 }

@@ -10,12 +10,16 @@ namespace courses_shop.Server
     {
         private readonly IRepositorioMasivo masivoRepositorio;
         private readonly IRepositorioGeneral generalRepositorio;
-        public TiendaController( IRepositorioMasivo masivoRepositorio,IRepositorioGeneral  generalRepositorio )
+
+        public TiendaController(
+            IRepositorioMasivo masivoRepositorio,
+            IRepositorioGeneral generalRepositorio
+        )
         {
             this.masivoRepositorio = masivoRepositorio;
             this.generalRepositorio = generalRepositorio;
         }
-       
+
         [HttpGet]
         [Route("DameCursos")]
         public async Task<ActionResult<List<Curso>>> CargaInicial()
@@ -32,7 +36,6 @@ namespace courses_shop.Server
             return listaCursos;
         }
 
-       
         [HttpPost]
         [Route("GuardarCursos")]
         public async Task<ActionResult<Usuario>> GuardarCursos(Usuario _usuario)
@@ -43,7 +46,6 @@ namespace courses_shop.Server
                 if (_usuario.ListaCursos == null)
                 {
                     return BadRequest();
-
                 }
                 usuario = await generalRepositorio.GuardarCursos(_usuario);
             }
@@ -52,24 +54,20 @@ namespace courses_shop.Server
                 throw new Exception(e.ToString());
             }
             return usuario;
-
         }
-       
+
         [HttpPost]
         [Route("AltaUsuario")]
         public async Task<ActionResult<Usuario>> AltaUsuario(Usuario _user)
         {
-           
-           
             Usuario usuario = null;
             try
             {
                 if (_user == null)
                 {
                     return BadRequest();
-
                 }
-               
+
                 usuario = await generalRepositorio.AltaUsuario(_user);
             }
             catch (Exception e)
@@ -77,7 +75,32 @@ namespace courses_shop.Server
                 throw new Exception(e.ToString());
             }
             return usuario;
+        }
 
+        [HttpPost]
+        [Route("ValidarUsuario")]
+        public async Task<ActionResult<UsuarioLogin>> ValidarUsuario(UsuarioLogin _usuario)
+        {
+            UsuarioLogin ususario = new UsuarioLogin();
+            try
+            {
+                if (_usuario == null)
+                    return BadRequest();
+
+                ususario = await generalRepositorio.ValidarUsuario(_usuario.EmailLogin);
+                if (
+                    ususario == null
+                    || ususario.EmailLogin != _usuario.EmailLogin
+                    || ususario.Password != _usuario.Password
+                ) {
+                    throw new Exception("Credenciales no validas");
+                 }
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            return ususario;
         }
     }
 }
